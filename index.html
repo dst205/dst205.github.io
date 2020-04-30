@@ -1,1 +1,12 @@
-Hello World
+## Executive Summary
+In this report, we analyze and model a dataset consisting of stock prices across 4 years of trading days in order to predict prices for the first ten trading days in October 2019. The model we settle on is an ARMA(1, 1, 0) model with one autoregressive parameter aftern differencing. Ultimately, we find that our price data is modelled quite well as a random walk with drift, which is suprising but not unfounded in literature on stock prices (see Random Walk Theory). Our forecasted values are therefore very close to a linear extrapolation of our most recent data point.
+
+## Exploratory Data Analysis
+Before we begin modelling, we must first investigate our dataset and see if we can take any preprocessing steps. Plotting the original time series, we immediately notice that there is clear downward trend which looks quite linear at first glance. Additionally, we can see that the variance is heteroskedastic, with higher variances appearing at higher stock prices, which makes sense because price movements are typically analyzed as percent changes rather than absolute movement. The relationship between variance and mean led me to pursue a log transformation to stabilize the variance.
+
+```{r figs2, echo=FALSE, fig.width = 12, fig.height = 4, fig.cap="\\label{fig:figs2} Left: Time series plot of stock price data. Right: Time series plot of log transformed stock price data"}
+par(mfrow=c(1,2))
+log_price = log(stock.df$Price)
+ts.plot(stock.df$Price, main = "Time Series of Stock Price", ylab = "Stock Price")
+ts.plot(log_price, main = "Time Series of Log Stock Price", ylab = "Log Price")
+```
